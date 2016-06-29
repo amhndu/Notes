@@ -1,0 +1,5 @@
+*.layout
+*.cbp
+*.depend
+*.kdev4
+build/
