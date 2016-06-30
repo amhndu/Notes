@@ -11,6 +11,7 @@ class Note
         void generate();
         void play();
         void stop();
+        sf::Int16 getPlayingSample();
     private:
         void AddNote(const double frequency, const double amplitude, std::vector<sf::Int16>& samples, const std::size_t position = 0);
 

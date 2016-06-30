@@ -3,6 +3,11 @@ project(notes)
 
 find_package( SFML 2 COMPONENTS graphics audio window system )
 
+if(CMAKE_COMPILER_IS_GNUCXX OR "${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+        set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall -Wextra -g")
+        set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O2")
+endif()
+
 file(GLOB SOURCES
     "${PROJECT_SOURCE_DIR}/*.cpp"
 )

@@ -3,3 +3,5 @@
 *.depend
 *.kdev4
 build/
+bin/
+obj/

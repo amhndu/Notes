@@ -1,5 +1,6 @@
 #include "Note.h"
 #include <cmath>
+#include <iostream>
 
 Note::Note(const double rate, const double freq, const double amp, const double note_dur) :
     m_sampleRate(rate),
@@ -20,9 +21,9 @@ void Note::generate()
     std::vector<sf::Int16> samples(m_sampleRate * m_duration / 1000);
     AddNote(m_frequency, m_amplitude, samples);
     //Add in some harmonics
-//     AddNote(m_frequency / 2, m_amplitude * 0.4, samples);
-//     AddNote(m_frequency / 4, m_amplitude * 0.2, samples);
-//     AddNote(m_frequency / 8, m_amplitude * 0.1, samples);
+    AddNote(m_frequency * 2, m_amplitude * 0.2, samples);
+    AddNote(m_frequency * 4, m_amplitude * 0.01, samples);
+    AddNote(m_frequency * 8, m_amplitude * 0.001, samples);
     m_buffer.loadFromSamples(&samples[0], samples.size(), 1, m_sampleRate);
     m_noteSound.setBuffer(m_buffer);
 }
@@ -42,7 +43,18 @@ void Note::stop()
     m_noteSound.stop();
 }
 
-void Note::AddNote(const double frequency, const double amplitude, std::vector< sf::Int16>& samples, const std::size_t position)
+sf::Int16 Note::getPlayingSample()
+{
+    if (m_noteSound.getStatus() == sf::Sound::Playing)
+    {
+        auto offset = m_noteSound.getPlayingOffset();
+        return m_buffer.getSamples()[static_cast<int>(offset.asSeconds() *  m_sampleRate)];
+    }
+    else
+        return 0;
+}
+
+void Note::AddNote(const double frequency, const double amplitude, std::vector<sf::Int16>& samples, const std::size_t position)
 {
     if (position + m_sampleRate * m_duration / 1000 >= samples.size())
         samples.resize(position + m_sampleRate * m_duration / 1000);
