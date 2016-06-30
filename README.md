@@ -1,7 +1,7 @@
 #Notes
 A simple music player
 
-The notes get higher from A-J (or any other row)
+The notes get higher from 'A' to ';' (or any other row)
 
 #Compiling
 Dependencies
@@ -9,7 +9,7 @@ Dependencies
 * SFML 2+
 
 Build system: cmake 3.1+
-On a Linux/OS X:
+On Linux/OS X:
 
 ```
 cd Notes                        #Go the the project directory
@@ -22,15 +22,15 @@ cmake .. && make
 
 Try these tunes!
 
-*Twinkle
+**Twinkle**
   ```
-  QQTTYYT RREEWWQ TTRREEW TTRREEW QQTTYYT RREEWWQ 
+  QQTTYYT RREEWWQ TTRREEW TTRREEW QQTTYYT RREEWWQ
   ```
-*Happy Birthday
+**Happy Birthday**
   ```
   1-1-2-1-4-3- -1-1-2-1-5-4- -1-1-8-6-4-3-2- -8-8-7-5-6-5
   ```
-*Harry Potter theme
+*Harry Potter theme**
   ```
   E-Y-I-U-Y-P-O-U-Y-I-U-Y-U-E
   ```
