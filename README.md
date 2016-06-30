@@ -9,6 +9,8 @@ Dependencies
 * SFML 2+
 
 Build system: cmake 3.1+
+
+
 On Linux/OS X:
 
 ```
