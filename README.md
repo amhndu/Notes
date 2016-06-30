@@ -16,7 +16,7 @@ On Linux/OS X:
 ```
 cd Notes                        #Go the the project directory
 mkdir build/ && cd build/
-cmake .. && make
+cmake -DCMAKE_BUILD_TYPE=Release .. && make
 ./notes                         #Launch
 ```
 
