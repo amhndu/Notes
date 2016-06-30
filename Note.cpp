@@ -20,17 +20,21 @@ void Note::generate()
     std::vector<sf::Int16> samples(m_sampleRate * m_duration / 1000);
     AddNote(m_frequency, m_amplitude, samples);
     //Add in some harmonics
-    AddNote(m_frequency / 2, m_amplitude * 0.4, samples);
-    AddNote(m_frequency / 4, m_amplitude * 0.2, samples);
-    AddNote(m_frequency / 8, m_amplitude * 0.1, samples);
+//     AddNote(m_frequency / 2, m_amplitude * 0.4, samples);
+//     AddNote(m_frequency / 4, m_amplitude * 0.2, samples);
+//     AddNote(m_frequency / 8, m_amplitude * 0.1, samples);
     m_buffer.loadFromSamples(&samples[0], samples.size(), 1, m_sampleRate);
     m_noteSound.setBuffer(m_buffer);
 }
 
 void Note::play()
 {
-    if(m_noteSound.getStatus() != sf::Sound::Playing)
-        m_noteSound.play();
+    if(m_noteSound.getStatus() == sf::Sound::Playing)
+    {
+        m_noteSound.stop();
+        m_noteSound.setPlayingOffset(sf::Time::Zero);
+    }
+    m_noteSound.play();
 }
 
 void Note::stop()

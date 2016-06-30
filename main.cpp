@@ -1,15 +1,16 @@
 #include <iostream>
 #include <limits>
 #include <vector>
+#include <string>
 #include "Note.h"
 #include <SFML/Graphics.hpp>
-#define LINE_LOG {std::cout << __LINE__ << " was executed" << std::endl;}
+#define LINE_LOG {std::cout << "Line : " << __LINE__ << " was executed" << std::endl;}
 
 #define MAX_AMPLITUDE (std::numeric_limits<sf::Int16>::max())
 
 int main()
 {
-    const double sample_rate = 44100;
+    const double sample_rate = 441000;
     const double note_frequencies[] = { 440.00, 493.88, 523.25, 587.33, 659.25, 698.46, 783.99 };
     std::vector<Note> notes(7, {sample_rate, note_frequencies[0], MAX_AMPLITUDE / 5, 300});
     for (std::size_t i = 0; i < notes.size(); ++i)
@@ -23,6 +24,10 @@ int main()
     rect.setFillColor(sf::Color::Cyan);
 
     bool focus = true;
+    const std::string keys_layout[] = {"1234567",
+                                        "QWERTYU",
+                                         "ASDFGHJ",
+                                          "ZXCVBNM"};
     while(window.isOpen())
     {
         sf::Event winEvent;
@@ -35,46 +40,41 @@ int main()
                     break;
                 case sf::Event::GainedFocus:
                     focus = true;
-                    LINE_LOG
                     break;
                 case sf::Event::LostFocus:
                     focus = false;
-                    LINE_LOG
                     break;
+                case sf::Event::KeyPressed:
+                {
+                    if (winEvent.key.code == sf::Keyboard::Escape)
+                    {
+                        window.close();
+                    }
+                    else if (winEvent.key.code >= sf::Keyboard::A && winEvent.key.code <= sf::Keyboard::Z)
+                    {
+                        for (auto keys : keys_layout)
+                        {
+                            auto pos = keys.find(winEvent.key.code - sf::Keyboard::A + 'A');
+                            if (pos != std::string::npos)
+                            {
+                                notes[pos].play();
+                                break;
+                            }
+                        }
+                    }
+                    else if (winEvent.key.code >= sf::Keyboard::Num1 && winEvent.key.code <= sf::Keyboard::Num9)
+                    {
+                        auto pos = keys_layout[0].find(winEvent.key.code - sf::Keyboard::Num0 + '0');
+                        if (pos != std::string::npos)
+                        {
+                            notes[pos].play();
+                            break;
+                        }
+                    }
+                }
             }
         }
         window.clear(sf::Color::White);
-        if (focus)
-        {
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
-            {
-                notes[0].play();
-            }
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
-            {
-                notes[1].play();
-            }
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
-            {
-                notes[2].play();
-            }
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::F))
-            {
-                notes[3].play();
-            }
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::G))
-            {
-                notes[4].play();
-            }
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::H))
-            {
-                notes[5].play();
-            }
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::J))
-            {
-                notes[6].play();
-            }
-        }
         window.display();
     }
     return 0;
