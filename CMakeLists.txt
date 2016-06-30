@@ -4,7 +4,6 @@ project(notes)
 find_package( SFML 2 COMPONENTS graphics audio window system )
 
 file(GLOB SOURCES
-    "${PROJECT_SOURCE_DIR}/main.cpp"
     "${PROJECT_SOURCE_DIR}/*.cpp"
 )
 
