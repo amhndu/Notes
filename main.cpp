@@ -11,17 +11,17 @@
 
 int main()
 {
-    const double sample_rate = 10000;
+    const double sample_rate = 441000;
     const std::vector<double> note_frequencies(
             { 392.00, 440.00, 493.88, 523.25, 587.33, 659.25, 698.46, 783.99, 880.00, 987.77 });
 //             { 440.00, 466.16, 493.88, 523.25, 554.37, 587.33, 622.25, 659.26, 698.46, 739.99, 783.99 });
-    std::vector<Note> notes(note_frequencies.size(), {sample_rate, note_frequencies[0], MAX_AMPLITUDE / 4, 400});
-    std::cout << "Generating notes.";
+    std::vector<Note> notes(note_frequencies.size(), {sample_rate, note_frequencies[0], MAX_AMPLITUDE / 4, 300});
+    std::cout << "Generating notes...\n";
     for (std::size_t i = 0; i < notes.size(); ++i)
     {
         notes[i].setFrequency(note_frequencies[i]);
         notes[i].generate();
-        std::cout << "." << std::flush;
+        std::cout << "\b\b\b" << i * 100 / (notes.size() - 1) << '%' << std::flush;
     }
     std::cout << "\nGenerated." << std::endl;
 

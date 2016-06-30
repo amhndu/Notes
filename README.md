@@ -28,9 +28,9 @@ Try these tunes!
   ```
 **Happy Birthday**
   ```
-  1-1-2-1-4-3- -1-1-2-1-5-4- -1-1-8-6-4-3-2- -8-8-7-5-6-5
+  1-1-2-1-4-3- -1-1-2-1-5-4- -1-1-8-6-4-3-2- -8-8-7-4-5-4
   ```
-*Harry Potter theme**
+**Harry Potter theme**
   ```
   E-Y-I-U-Y-P-O-U-Y-I-U-Y-U-E
   ```
