@@ -55,6 +55,7 @@ Try these tunes!
   ```
 
 **Mary had a little lamb**
+
   In named input method, launch with -n (./notes -n)
   ```
   EDCDEEE DDDEEE EDCDEEE EDDEDC
