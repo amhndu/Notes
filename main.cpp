@@ -3,19 +3,82 @@
 #include <vector>
 #include <string>
 #include <algorithm>
+#include <sstream>
 #include "Note.h"
 #include <SFML/Graphics.hpp>
 #define LINE_LOG {std::cout << "Line : " << __LINE__ << " was executed" << std::endl;}
 
 #define MAX_AMPLITUDE (std::numeric_limits<sf::Int16>::max())
 
-int main()
+int main(int argc, char** argv)
 {
-    const double sample_rate = 441000;
+    bool namedinput = false;
+    double sample_rate = 441000;
+    double note_duration = 300;
+    if (argc > 1)
+    {
+        for (auto i = 1; i < argc; ++i)
+        {
+            const auto arg = std::string(argv[i]);
+            if (arg == "--namednotesinput" || arg == "-n")
+            {
+                namedinput = true;
+                std::cout << "Using keyboard to input note names instead of positional input" << std::endl;
+            }
+            else if (arg == "--sample-rate" || arg == "-r")
+            {
+                std::stringstream ss(argv[++i]);
+                double tmp;
+                if (ss >> tmp)
+                {
+                    sample_rate = tmp;
+                }
+                else
+                {
+                    std::cout << "Invalid sample rate input. Defaulting to :" << sample_rate << "per second." << std::endl;
+                }
+            }
+            else if (arg == "--note-duration" || arg == "-d")
+            {
+                std::stringstream ss(argv[++i]);
+                double tmp;
+                if (ss >> tmp)
+                {
+                    note_duration = tmp;
+                }
+                else
+                {
+                    std::cout << "Invalid sample rate input. Defaulting to :" << note_duration << "ms." << std::endl;
+                }
+            }
+            else if (arg == "--help" || arg == "-h")
+            {
+                std::cout << "Notes is a simple graphical musical notes player.\n"
+                              "Within the window use the keyboard to play. The numeric row and\nalphabetical rows are used."
+                              "Using each row is equivalent, thus 1, Q, A and Z all play the same note.\n"
+                              "The notes get higher from left to right\n\n";
+                std::cout << "Command line options:\n"
+                           << "Usage ./notes [OPTIONS]\n"
+                           << "--help, -h                        Display this text and exit\n"
+                           << "--note-duration, -d <duration>    Set the note duration in milliseconds\n"
+                           << "                                  (default: 300)\n"
+                           << "--sample-rate, -r <rate>          Set the sample in samples per second, higher\n"
+                           << "                                  means higher quality but also higher load time\n"
+                           << "                                  (default: 441000)\n"
+                           << "--namednotesinput, -n             Input/play notes by their names instead.\n"
+                           << "                                  Available notes: C D E F G A B\n"
+                           << "                                  Don't use this option if you want more notes\n"
+                           << "                                  or the positional input (the default)" << std::endl;
+                return 0;
+            }
+        }
+    }
+
     const std::vector<double> note_frequencies(
             { 392.00, 440.00, 493.88, 523.25, 587.33, 659.25, 698.46, 783.99, 880.00, 987.77 });
-//             { 440.00, 466.16, 493.88, 523.25, 554.37, 587.33, 622.25, 659.26, 698.46, 739.99, 783.99 });
-    std::vector<Note> notes(note_frequencies.size(), {sample_rate, note_frequencies[0], MAX_AMPLITUDE / 4, 300});
+    const std::string note_mapping = "---CDEFGAB";
+
+    std::vector<Note> notes(note_frequencies.size(), {sample_rate, note_frequencies[0], MAX_AMPLITUDE / 4, note_duration});
     std::cout << "Generating notes...\n";
     for (std::size_t i = 0; i < notes.size(); ++i)
     {
@@ -55,7 +118,7 @@ int main()
                     {
                         window.close();
                     }
-                    else if (winEvent.key.code >= sf::Keyboard::A && winEvent.key.code <= sf::Keyboard::Z)
+                    else if (!namedinput && winEvent.key.code >= sf::Keyboard::A && winEvent.key.code <= sf::Keyboard::Z)
                     {
                         for (auto keys : keys_layout)
                         {
@@ -66,29 +129,35 @@ int main()
                             }
                         }
                     }
-                    else if (winEvent.key.code == sf::Keyboard::SemiColon)
+                    else if (!namedinput && winEvent.key.code == sf::Keyboard::SemiColon)
                     {
                         notes[9].play();
                     }
-                    else if (winEvent.key.code == sf::Keyboard::Comma)
+                    else if (!namedinput && winEvent.key.code == sf::Keyboard::Comma)
                     {
                         notes[7].play();
                     }
-                    else if (winEvent.key.code == sf::Keyboard::Period)
+                    else if (!namedinput && winEvent.key.code == sf::Keyboard::Period)
                     {
                         notes[8].play();
                     }
-                    else if (winEvent.key.code == sf::Keyboard::Slash)
+                    else if (!namedinput && winEvent.key.code == sf::Keyboard::Slash)
                     {
                         notes[9].play();
                     }
-                    else if (winEvent.key.code >= sf::Keyboard::Num1 && winEvent.key.code <= sf::Keyboard::Num9)
+                    else if (!namedinput && winEvent.key.code >= sf::Keyboard::Num1 && winEvent.key.code <= sf::Keyboard::Num9)
                     {
                         auto pos = keys_layout[0].find(winEvent.key.code - sf::Keyboard::Num0 + '0');
                         if (pos != std::string::npos)
                         {
                             notes[pos].play();
                         }
+                    }
+                    else if (namedinput && winEvent.key.code >= sf::Keyboard::A && winEvent.key.code <= sf::Keyboard::Z)
+                    {
+                        auto pos = note_mapping.find(winEvent.key.code - sf::Keyboard::A + 'A');
+                        if (pos != std::string::npos)
+                            notes[pos].play();
                     }
                     break;
                 }
@@ -109,10 +178,6 @@ int main()
             }
             value = (value > MAX_AMPLITUDE ? MAX_AMPLITUDE : value);
             value = window.getSize().y / 2 * (1 + value / MAX_AMPLITUDE);
-//             for (std::size_t i = 0; i < waveform.size() - 1; ++i)
-//             {
-//                 waveform[i].position.y = value;
-//             }
 
             waveform[waveform.size() - 1].position.y = value;
             timer.restart();

@@ -1,7 +1,24 @@
 #Notes
-A simple music player
+Notes is a simple graphical musical notes player.
+Within the window use the keyboard to play. The numeric row and
+alphabetical rows are used.Using each row is equivalent, thus 1, Q, A and Z all play the same note.
+The notes get higher from left to right
 
-The notes get higher from 'A' to ';' (or any other row)
+Command line options:
+```
+Usage ./notes [OPTIONS]
+--help, -h                        Display this text and exit
+--note-duration, -d <duration>    Set the note duration in milliseconds
+                                  (default: 300)
+--sample-rate, -r <rate>          Set the sample in samples per second, higher
+                                  means higher quality but also higher load time
+                                  (default: 441000)
+--namednotesinput, -n             Input/play notes by their names instead.
+                                  Available notes: C D E F G A B
+                                  Don't use this option if you want more notes
+                                  or the positional input (the default)
+
+```
 
 #Compiling
 Dependencies
@@ -24,7 +41,7 @@ cmake -DCMAKE_BUILD_TYPE=Release .. && make
 
 Try these tunes!
 
-**Twinkle**
+**Twinkle Twinkle**
   ```
   QQTTYYT RREEWWQ TTRREEW TTRREEW QQTTYYT RREEWWQ
   ```
@@ -35,4 +52,10 @@ Try these tunes!
 **Harry Potter theme**
   ```
   E-Y-I-U-Y-P-O-U-Y-I-U-Y-U-E
+  ```
+
+**Mary had a little lamb**
+  In named input method, launch with -n (./notes -n)
+  ```
+  EDCDEEE DDDEEE EDCDEEE EDDEDC
   ```
