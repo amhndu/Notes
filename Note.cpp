@@ -30,12 +30,8 @@ void Note::generate()
 
 void Note::play()
 {
-    if(m_noteSound.getStatus() == sf::Sound::Playing)
-    {
-        m_noteSound.stop();
-        m_noteSound.setPlayingOffset(sf::Time::Zero);
-    }
-    m_noteSound.play();
+    if (m_noteSound.getStatus() != sf::Sound::Playing)
+        m_noteSound.play();
 }
 
 void Note::stop()
