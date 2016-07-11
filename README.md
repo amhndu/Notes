@@ -1,5 +1,6 @@
-#Notes
-Notes is a simple graphical musical notes player.
+Notes
+========
+Notes is a simple musical notes player.
 Within the window use the keyboard to play. The numeric row and
 alphabetical rows are used.Using each row is equivalent, thus 1, Q, A and Z all play the same note.
 The notes get higher from left to right
@@ -20,7 +21,8 @@ Usage ./notes [OPTIONS]
 
 ```
 
-#Compiling
+Compiling
+==========
 Dependencies
 
 * SFML 2+
@@ -36,9 +38,10 @@ mkdir build/ && cd build/
 cmake -DCMAKE_BUILD_TYPE=Release .. && make
 ./notes                         #Launch
 ```
-F
+Similarly, it should work under Windows as well.
 
-#Songs
+Songs
+==========
 
 Try these tunes!
 
