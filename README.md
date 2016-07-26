@@ -2,7 +2,7 @@ Notes
 ========
 Notes is a simple musical notes player.
 Within the window use the keyboard to play. The numeric row and
-alphabetical rows are used.Using each row is equivalent, thus 1, Q, A and Z all play the same note.
+alphabetical rows are used. Using each row is equivalent, thus 1, Q, A and Z all play the same note.
 The notes get higher from left to right
 
 Command line options:
@@ -21,14 +21,21 @@ Usage ./notes [OPTIONS]
 
 ```
 
+Hear it in action
+-------------------
+
+[Listen/Download from Soundcloud](https://soundcloud.com/amish-naidu/notes)
+
+
 Compiling
-==========
+-----------
 Dependencies
 
 * SFML 2+
 
 Build system: cmake 3.1+
 
+Compile with CMAKE_BUILD_TYPE=Release
 
 On Linux/OS X:
 
@@ -38,10 +45,10 @@ mkdir build/ && cd build/
 cmake -DCMAKE_BUILD_TYPE=Release .. && make
 ./notes                         #Launch
 ```
-Similarly, it should work under Windows as well.
+Similarly, it should work under Windows.
 
 Songs
-==========
+----------
 
 Try these tunes!
 
