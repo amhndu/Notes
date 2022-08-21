@@ -3,18 +3,21 @@ include(FetchContent)
 include(ExternalProject)
 project(notes CXX)
 
-ExternalProject_Add(PortAudio
+FetchContent_Declare(
+    PortAudio
     GIT_REPOSITORY https://github.com/PortAudio/portaudio.git
-    INSTALL_COMMAND cmake -E echo "Skipping install step."
-)
-
-FetchContent_Declare(boost_lockfree
-    GIT_REPOSITORY https://github.com/boostorg/lockfree.git
-    GIT_TAG boost-1.79.0
+    SOURCE_DIR ${CMAKE_BINARY_DIR}/portaudio
     # INSTALL_COMMAND cmake -E echo "Skipping install step."
 )
 
-FetchContent_MakeAvailable(boost_lockfree)
+
+FetchContent_MakeAvailable(PortAudio)
+# add_subdirectory(${CMAKE_BINARY_DIR}/portaudio)
+get_cmake_property(_variableNames VARIABLES)
+list (SORT _variableNames)
+foreach (_variableName ${_variableNames})
+    message(STATUS "${_variableName}=${${_variableName}}")
+endforeach()
 
 if(CMAKE_COMPILER_IS_GNUCXX OR "${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
         set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall -Wextra -g")
@@ -35,9 +38,9 @@ else()
     find_package( SFML 2 COMPONENTS audio graphics window system REQUIRED)
 endif()
 
-include_directories(${SFML_INCLUDE_DIR} ${boost_lockfree_SOURCE_DIR}/boost_lockfree/include)
+include_directories(${SFML_INCLUDE_DIR})
 add_executable(notes ${SOURCES})
-target_link_libraries(notes ${SFML_LIBRARIES} ${SFML_DEPENDENCIES} ${PortAudio_LIBRARIES})
+target_link_libraries(notes ${SFML_LIBRARIES} ${SFML_DEPENDENCIES} ${PortAudio_LIB_DEPENDS} ${PortAudio_BINARY_DIR}/libportaudio )
 
 set_property(TARGET notes PROPERTY CXX_STANDARD 11)
 set_property(TARGET notes PROPERTY CXX_STANDARD_REQUIRED ON)

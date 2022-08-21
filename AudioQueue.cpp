@@ -18,7 +18,10 @@ void throwPortAudioError(const PaError err) {
     throw std::runtime_error(errorMessage);
 }
 
-AudioQueue::AudioQueue(int sample_rate) {
+AudioQueue::AudioQueue(int sample_rate)
+    : m_sample_rate(sample_rate)
+    , buffer(2048)
+{
     PaError err = Pa_Initialize();
 
     if (err != paNoError) {
@@ -71,6 +74,15 @@ void AudioQueue::push_sample(std::uint16_t sample) {
 
 }
 
+int AudioQueue::audioCallback(
+    const void *inputBUffer,
+    void *outputBuffer,
+    unsigned long framesPerBuffer,
+    const PaStreamCallbackTimeInfo* timeInfo,
+    PaStreamCallbackFlags statusFlags) {
+
+}
+
 
 bool AudioQueue::start()
 {
@@ -93,14 +105,4 @@ bool AudioQueue::stop()
     if (err != paNoError) {
         throwPortAudioError(err);
     }
-}
-
-int AudioQueue::audioCallback(
-    const void *inputBUffer,
-    void *outputBuffer,
-    unsigned long framesPerBuffer,
-    const PaStreamCallbackTimeInfo* timeInfo,
-    PaStreamCallbackFlags statusFlags)
-{
-
 }

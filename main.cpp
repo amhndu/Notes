@@ -15,6 +15,10 @@
 #include <iterator>
 #include <cstdlib>
 
+void portaudio_test() {
+
+}
+
 int main()
 {
     lockfree::RingBuffer<int> buffer{5};

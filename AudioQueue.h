@@ -4,6 +4,7 @@
 #include <array>
 #include <portaudio.h>
 #include <atomic>
+#include "spsc.hpp"
 
 class AudioQueue {
 
@@ -18,7 +19,7 @@ public:
 private:
     void init();
 
-    int AudioQueue::audioCallback(
+    int audioCallback(
         const void *inputBUffer,
         void *outputBuffer,
         unsigned long framesPerBuffer,
@@ -29,6 +30,5 @@ private:
     PaStream *m_stream;
     int m_sample_rate;
 
-    std::array<std::vector<std::uint16_t>, 2> m_buffers;
-    std::size_t active_buffer = 0;
+    lockfree::RingBuffer<int> buffer;
 };
